@@ -32,5 +32,6 @@
   "prettier": {
     "singleQuote": true,
     "semi": true
-  }
+  },
+  "release": { "branches": [ "main" ] }
 }
