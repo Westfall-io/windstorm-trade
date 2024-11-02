@@ -25,7 +25,7 @@ RUN corepack enable
 WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
-COPY v-dashboard/package*.json ./
+COPY trade/package*.json ./
 
 RUN pnpm install i @astrouxds/tailwind
 
@@ -33,7 +33,7 @@ RUN pnpm install i @astrouxds/tailwind
 RUN pnpm install
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY v-dashboard .
+COPY trade .
 
 # build app for production with minification
 RUN pnpm build
