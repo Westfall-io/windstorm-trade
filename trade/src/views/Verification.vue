@@ -4,6 +4,8 @@ import { useRoute } from "vue-router";
 import GoBack from '../components/links/GoBack.vue';
 import API_Wait from '../components/links/API_Wait.vue';
 
+import * as defaults from '../constants.tsx'
+
 const route = useRoute();
 const id = route.params.id;
 
@@ -20,7 +22,7 @@ const page = ref(1);
 const pages = ref(1);
 
 async function getV(id) {
-  fetch('https://windstorm-api.westfall.io/views/verification/'+id.toString()+'?size=10&page=1')
+  fetch(defaults.api_addr+'/views/verification/'+id.toString()+'?size=10&page=1')
     .then(response => response.json())
     .then(data => {
       declaredName.value=data.declaredName;

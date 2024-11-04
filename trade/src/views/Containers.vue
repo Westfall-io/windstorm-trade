@@ -8,11 +8,10 @@ const pulled = ref(false);
 const page = ref(1);
 const pages = ref(1);
 
-const api_addr = ref("https://windstorm-api.digitalforge.app")
-const artifact_addr = ref("https://configs.digitalforge.app")
+import * as defaults from '../constants.tsx'
 
 async function getContainers(page) {
-  fetch('https://windstorm-api.westfall.io/views/containers/?size=10&page='+page.value)
+  fetch(defaults.api_addr+'/views/containers/?size=10&page='+page.value)
     .then(response => response.json())
     .then(data => {
       pulled.value = true;
@@ -25,7 +24,7 @@ async function getContainers(page) {
 getContainers(page);
 
 function getContainerLink(project_id, image) {
-  return 'https://core.harbor.domain/harbor/projects/' + project_id + 'repositories/' + image + '/artifacts-tab'
+  return defaults.harbor_addr+'/harbor/projects/' + project_id + 'repositories/' + image + '/artifacts-tab'
 }
 
 </script>

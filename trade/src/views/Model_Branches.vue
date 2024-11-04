@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router';
 import GoBack from '../components/links/GoBack.vue';
 import API_Wait from '../components/links/API_Wait.vue';
 
+import * as defaults from '../constants.tsx'
+
 const branches = ref(null);
 const defbranch = ref(null);
 const model_path = ref(null)
@@ -11,12 +13,12 @@ const page = ref(1);
 const pages = ref(1);
 
 async function getBranches(page) {
-  fetch('https://windstorm-api.westfall.io/views/model_branches/?size=10&page='+page.value)
+  fetch(defaults.api_addr+'/views/model_branches/?size=10&page='+page.value)
     .then(response => response.json())
     .then(data => {
       branches.value = data.results;
       defbranch.value = data.default_branch;
-      model_path.value = 'https://models.westfall.io/'+data.model_path;
+      model_path.value = defaults.model_addr+data.model_path;
       page.value=data.page;
       pages.value=data.pages;
     });

@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router';
 import { useRoute } from "vue-router";
 import API_Wait from '../components/links/API_Wait.vue';
 
+import * as defaults from '../constants.tsx'
+
 const route = useRoute();
 
 const commits = ref(null);
@@ -13,11 +15,11 @@ const page = ref(1);
 const pages = ref(1);
 
 async function getCommits(page) {
-  fetch('https://windstorm-api.westfall.io/views/model_commits/'+branch.value+'?size=10&page='+page.value)
+  fetch(defaults.api_addr+'/views/model_commits/'+branch.value+'?size=10&page='+page.value)
     .then(response => response.json())
     .then(data => {
       commits.value = data.results;
-      model_path.value = 'https://models.westfall.io/'+data.model_path;
+      model_path.value = defaults.model_addr+data.model_path;
       page.value=data.page;
       pages.value=data.pages;
     });

@@ -3,12 +3,14 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import API_Wait from '../components/links/API_Wait.vue';
 
+import * as defaults from '../constants.tsx'
+
 const threads = ref(null);
 const page = ref(1);
 const pages = ref(1);
 
 async function getTEs(page) {
-  fetch('https://windstorm-api.westfall.io/views/thread_executions/?size=10&page='+page.value)
+  fetch(defaults.api_addr + '/views/thread_executions/?size=10&page='+page.value)
     .then(response => response.json())
     .then(data => {
       threads.value = data.results;
@@ -20,11 +22,11 @@ async function getTEs(page) {
 getTEs(page);
 
 function getContainerLink(project_id, image) {
-  return 'https://core.harbor.domain/harbor/projects/' + project_id + 'repositories/' + image + '/artifacts-tab'
+  return defaults.harbor_addr+'/harbor/projects/' + project_id + 'repositories/' + image + '/artifacts-tab'
 }
 
 function getCommitLink(path, branch) {
-  return 'https://artifacts.westfall.io/' + path + '/commit/' + branch
+  return defaults.artifact_addr + '/' + path + '/commit/' + branch
 }
 
 </script>
