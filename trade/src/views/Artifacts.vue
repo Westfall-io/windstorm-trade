@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import API_Wait from '../components/links/API_Wait.vue';
 
-import * as defaults from '..constants'
+import * as defaults from '../constants.tsx'
 
 const artifacts = ref(null);
 const pulled = ref(false);
