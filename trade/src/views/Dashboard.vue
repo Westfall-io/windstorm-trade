@@ -2,12 +2,14 @@
 import { ref } from 'vue'
 import API_Wait from '../components/links/API_Wait.vue'
 
+import * as defaults from '../constants.tsx'
+
 const models = ref(null);
 const requirements = ref(null);
 const threads = ref(null);
 
 async function getModels() {
-  fetch('https://windstorm-api.westfall.io/views/count_models/')
+  fetch(defaults.api_addr'/views/count_models/')
     .then(response => response.json())
     .then(data => {
       models.value=data.models;
@@ -15,7 +17,7 @@ async function getModels() {
 }
 
 async function getReqts() {
-  fetch('https://windstorm-api.westfall.io/views/count_requirements/')
+  fetch(defaults.api_addr+'/views/count_requirements/')
     .then(response => response.json())
     .then(data => {
       requirements.value=data.requirements;
@@ -23,7 +25,7 @@ async function getReqts() {
 }
 
 async function getThreads() {
-  fetch('https://windstorm-api.westfall.io/views/count_threads/')
+  fetch(defaults.api_addr+'/views/count_threads/')
     .then(response => response.json())
     .then(data => {
       threads.value=data.threads;
