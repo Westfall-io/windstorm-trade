@@ -46,8 +46,6 @@ jobs:
           extra_plugins: |
             @types/dateformat
             semantic-release-gitmoji
-            @semantic-release/github
-            @semantic-release/npm
           working_directory: ./trade
           branches: |
             [
