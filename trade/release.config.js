@@ -16,7 +16,7 @@ module.exports = {
   ],
   plugins: [
     [
-      '@types/dateformat',
+      'dateformat',
       'semantic-release-gitmoji', {
         releaseRules: {
           major: [ ':boom:' ],
