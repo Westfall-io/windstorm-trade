@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import API_Wait from '../components/links/API_Wait.vue';
 
+import * as defaults from '../constants.tsx'
+
 const threads = ref(null);
 const branch = ref(null);
 const commit = ref(null);
@@ -11,7 +13,7 @@ const page = ref(1);
 const pages = ref(1);
 
 async function getThreads(page) {
-  fetch('https://windstorm-api.westfall.io/views/threads/?size=10&page='+page.value)
+  fetch(defaults.api_addr + '/views/threads/?size=10&page='+page.value)
     .then(response => response.json())
     .then(data => {
       threads.value = data.results;
