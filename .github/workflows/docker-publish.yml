@@ -44,7 +44,7 @@ jobs:
         with:
           semantic_version: 19.0.5
           extra_plugins: |
-            dateformat
+            @types/dateformat
             semantic-release-gitmoji
             @semantic-release/github
             @semantic-release/npm
