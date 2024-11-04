@@ -10,7 +10,7 @@ import EmptyLayout from './components/EmptyLayout.vue'
 import '@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css'
 
 // Import keycloak
-import { vueKeycloak } from '@josempgon/vue-keycloak'
+//import { vueKeycloak } from '@josempgon/vue-keycloak'
 
 import { RuxStatus } from '@astrouxds/astro-web-components/dist/components/rux-status'
 customElements.define('rux-status', RuxStatus)
@@ -54,13 +54,13 @@ customElements.define('rux-notification', RuxNotification)
 
 const app = createApp(App)
 
-await vueKeycloak.install(app, {
-  config: {
-    url: process.env.VUE_APP_KEYCLOAK_ADDR+'/auth',
-    realm: process.env.VUE_APP_KEYCLOAK_REALM,
-    clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
-  }
-})
+//await vueKeycloak.install(app, {
+//  config: {
+//    url: process.env.VUE_APP_KEYCLOAK_ADDR+'/auth',
+//    realm: process.env.VUE_APP_KEYCLOAK_REALM,
+//    clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
+//  }
+//})
 
 app.component('DefaultLayout', DashboardLayout)
 app.component('EmptyLayout', EmptyLayout)
