@@ -9,7 +9,7 @@ const requirements = ref(null);
 const threads = ref(null);
 
 async function getModels() {
-  fetch(defaults.api_addr'/views/count_models/')
+  fetch(defaults.api_addr+'/views/count_models/')
     .then(response => response.json())
     .then(data => {
       models.value=data.models;
