@@ -53,6 +53,9 @@ getThreads();
       <a href="https://core.harbor.domain/" style="text-decoration: none;">Harbor -- Container Registry</a><br />
       <a href="https://storage.westfall.io/" style="text-decoration: none;">Minio -- Verification Output Artifact Storage</a>
     </rux-container>
+    <rux-container class="px-6 pb-4">
+      <iframe width="800" height="230" :src="https://jupyter.digitalforge.app"></iframe>
+    </rux-container>
     <br />
     <rux-container class="w-full px-6">
       <div class="flex flex-wrap">
