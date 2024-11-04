@@ -43,6 +43,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v4
         with:
           semantic_version: 19.0.5
+          working_directory: ./trade
           branches: |
             [
               '+([0-9])?(.{+([0-9]),x}).x',
