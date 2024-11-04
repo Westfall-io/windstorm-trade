@@ -8,6 +8,9 @@ const pulled = ref(false);
 const page = ref(1);
 const pages = ref(1);
 
+const api_addr = ref("https://windstorm-api.digitalforge.app")
+const artifact_addr = ref("https://configs.digitalforge.app")
+
 async function getContainers(page) {
   fetch('https://windstorm-api.westfall.io/views/containers/?size=10&page='+page.value)
     .then(response => response.json())
