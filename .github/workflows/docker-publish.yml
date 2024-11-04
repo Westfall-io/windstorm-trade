@@ -44,7 +44,6 @@ jobs:
         with:
           semantic_version: 19.0.5
           extra_plugins: |
-            dateformat
             semantic-release-gitmoji
           working_directory: ./trade
           branches: |
