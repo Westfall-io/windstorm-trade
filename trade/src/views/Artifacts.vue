@@ -23,6 +23,7 @@ async function getArtifacts(api_addr, page) {
       pages.value=data.pages;
     });
 }
+console.log(defaults)
 getArtifacts(defaults.api_addr, page);
 
 function getCommitLink(artifact_addr, path, branch) {
