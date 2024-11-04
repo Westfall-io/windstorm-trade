@@ -22,7 +22,7 @@ async function getArtifacts(api_addr, page) {
     });
 }
 
-getArtifacts(page);
+getArtifacts(api_addr, page);
 
 function getCommitLink(artifact_addr, path, branch) {
   return artifact_addr+'/' + path + '/src/branch/' + branch
@@ -54,7 +54,7 @@ function getCommitLink(artifact_addr, path, branch) {
                           <rux-table-cell>{{ a.default_branch }}</rux-table-cell>
                           <rux-table-cell>
                             <p class="text-indigo-600 hover:text-indigo-900 whitespace-nowrap">
-                              <a :href="getCommitLink(a.full_name, a.default_branch)">
+                              <a :href="getCommitLink(artifact_addr, a.full_name, a.default_branch)">
                                 <rux-button size="small">
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
