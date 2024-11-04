@@ -33,5 +33,4 @@
     "singleQuote": true,
     "semi": true
   },
-  "release": { "branches": [ "main", "next" ] }
 }
