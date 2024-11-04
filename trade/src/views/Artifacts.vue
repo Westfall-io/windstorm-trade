@@ -21,7 +21,7 @@ async function getArtifacts(api_addr, page) {
       pages.value=data.pages;
     });
 }
-
+console.log(api_addr+'/views/artifacts/?size=10&page='+page.value)
 getArtifacts(api_addr, page);
 
 function getCommitLink(artifact_addr, path, branch) {
