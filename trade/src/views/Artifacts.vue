@@ -9,7 +9,7 @@ const page = ref(1);
 const pages = ref(1);
 
 const api_addr = ref("https://windstorm-api.digitalforge.app")
-const artifact_addr = ref(https://configs.digitalforge.app)
+const artifact_addr = ref("https://configs.digitalforge.app")
 
 async function getArtifacts(page) {
   fetch(api_addr+'/views/artifacts/?size=10&page='+page.value)
