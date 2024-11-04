@@ -11,7 +11,7 @@ const pages = ref(1);
 const api_addr = ref("https://windstorm-api.digitalforge.app")
 const artifact_addr = ref("https://configs.digitalforge.app")
 
-async function getArtifacts(page) {
+async function getArtifacts(api_addr, page) {
   fetch(api_addr+'/views/artifacts/?size=10&page='+page.value)
     .then(response => response.json())
     .then(data => {
@@ -24,7 +24,7 @@ async function getArtifacts(page) {
 
 getArtifacts(page);
 
-function getCommitLink(path, branch) {
+function getCommitLink(artifact_addr, path, branch) {
   return artifact_addr+'/' + path + '/src/branch/' + branch
 }
 
