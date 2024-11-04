@@ -3,13 +3,15 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import API_Wait from '../components/links/API_Wait.vue';
 
+import * as defaults from '..constants'
+
 const artifacts = ref(null);
 const pulled = ref(false);
 const page = ref(1);
 const pages = ref(1);
 
-const api_addr = ref("https://windstorm-api.digitalforge.app")
-const artifact_addr = ref("https://configs.digitalforge.app")
+//const api_addr = ref("https://windstorm-api.digitalforge.app")
+//const artifact_addr = ref("https://configs.digitalforge.app")
 
 async function getArtifacts(api_addr, page) {
   fetch(api_addr.value+'/views/artifacts/?size=10&page='+page.value)
@@ -21,8 +23,7 @@ async function getArtifacts(api_addr, page) {
       pages.value=data.pages;
     });
 }
-console.log(api_addr.value+'/views/artifacts/?size=10&page='+page.value)
-getArtifacts(api_addr, page);
+getArtifacts(defaults.api_addr, page);
 
 function getCommitLink(artifact_addr, path, branch) {
   return artifact_addr+'/' + path + '/src/branch/' + branch
@@ -54,7 +55,7 @@ function getCommitLink(artifact_addr, path, branch) {
                           <rux-table-cell>{{ a.default_branch }}</rux-table-cell>
                           <rux-table-cell>
                             <p class="text-indigo-600 hover:text-indigo-900 whitespace-nowrap">
-                              <a :href="getCommitLink(artifact_addr, a.full_name, a.default_branch)">
+                              <a :href="getCommitLink(defaults.artifact_addr, a.full_name, a.default_branch)">
                                 <rux-button size="small">
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
