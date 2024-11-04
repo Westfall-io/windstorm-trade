@@ -12,7 +12,7 @@ const api_addr = ref("https://windstorm-api.digitalforge.app")
 const artifact_addr = ref("https://configs.digitalforge.app")
 
 async function getArtifacts(api_addr, page) {
-  fetch(api_addr+'/views/artifacts/?size=10&page='+page.value)
+  fetch(api_addr.value+'/views/artifacts/?size=10&page='+page.value)
     .then(response => response.json())
     .then(data => {
       pulled.value = true;
@@ -21,7 +21,7 @@ async function getArtifacts(api_addr, page) {
       pages.value=data.pages;
     });
 }
-console.log(api_addr+'/views/artifacts/?size=10&page='+page.value)
+console.log(api_addr.value+'/views/artifacts/?size=10&page='+page.value)
 getArtifacts(api_addr, page);
 
 function getCommitLink(artifact_addr, path, branch) {
