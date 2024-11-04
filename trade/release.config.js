@@ -15,7 +15,6 @@ module.exports = {
     "main", "next"
   ],
   plugins: [
-    'datetime',
     [
       'semantic-release-gitmoji', {
         releaseRules: {
