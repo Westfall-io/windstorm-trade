@@ -13,7 +13,7 @@ const page = ref(1);
 const pages = ref(1);
 
 async function getReqts(page) {
-  fetch(defaults.api_addr+'/views/requirements/?size=10&page='+page.value)
+  fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
     .then(response => response.json())
     .then(data => {
       reqts.value = data.results;
