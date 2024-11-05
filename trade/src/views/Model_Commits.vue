@@ -19,7 +19,7 @@ async function getCommits(page) {
       pulled.value = true;
       commits.value = data.results;
       branch.value = data.default_branch;
-      model_path.value = defaults.model_addr+data.model_path;
+      model_path.value = defaults.model_addr+'/'+data.model_path;
       page.value=data.page;
       pages.value=data.pages;
     });
