@@ -24,7 +24,7 @@ async function getContainers(page) {
 getContainers(page);
 
 function getContainerLink(project_id, image) {
-  return defaults.harbor_addr+'/harbor/projects/' + project_id + 'repositories/' + image + '/artifacts-tab'
+  return defaults.harbor_addr+'/harbor/projects/' + project_id + '/repositories/' + image + '/artifacts-tab'
 }
 
 </script>
