@@ -12,9 +12,9 @@ const commit_date = ref(null);
 const page = ref(1);
 const pages = ref(1);
 const filter = ref(false);
-//const refreshKey = ref(0);
+const refreshKey = ref(1);
 
-async function getReqts(page, filter) {
+async function getReqts(page) {
   fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
     .then(response => response.json())
     .then(data => {
@@ -27,10 +27,10 @@ async function getReqts(page, filter) {
     });
 }
 
-getReqts(page, filter);
+getReqts(page);
 
+/*
 function refreshData(filter, refreshKey) {
-  /* Commenting out
   if (filter) {
     filter = false;
   } else {
@@ -38,8 +38,9 @@ function refreshData(filter, refreshKey) {
   }
   getReqts(page, filter);
   refreshKey++;
-  */
+
 }
+*/
 
 </script>
 
