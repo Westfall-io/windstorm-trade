@@ -11,8 +11,6 @@ const commit = ref(null);
 const commit_date = ref(null);
 const page = ref(1);
 const pages = ref(1);
-const filter = ref(false);
-const refreshKey = ref(1);
 
 async function getReqts(page) {
   fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
@@ -29,25 +27,12 @@ async function getReqts(page) {
 
 getReqts(page);
 
-/*
-function refreshData(filter, refreshKey) {
-  if (filter) {
-    filter = false;
-  } else {
-    filter = true;
-  }
-  getReqts(page, filter);
-  refreshKey++;
-
-}
-*/
-
 </script>
 
 <template>
     <rux-container>
       <div class="card m-3">
-          <div class="card-body" > <!--:key="">-->
+          <div class="card-body" >
               <div v-if="reqts!=null">
                 <div v-if="branch==null">
                   <div class="wrapper wrapper--small">
@@ -79,7 +64,7 @@ function refreshData(filter, refreshKey) {
                   </div>
                   <rux-card class="w-full">
                     <div slot="header" style="display: flex; align-items: center;">
-                      <rux-button ><!--@click="refreshData(filter, refreshKey)">-->
+                      <rux-button>
                           <rux-icon icon="filter-list" size="extra-small"></rux-icon>
                       </rux-button>
                       Requirements
