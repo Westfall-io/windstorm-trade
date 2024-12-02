@@ -30,6 +30,7 @@ async function getReqts(page, filter) {
 getReqts(page, filter);
 
 function refreshData(filter, refreshKey) {
+  /* Commenting out
   if (filter) {
     filter = false;
   } else {
@@ -37,6 +38,7 @@ function refreshData(filter, refreshKey) {
   }
   getReqts(page, filter);
   refreshKey++;
+  */
 }
 
 </script>
