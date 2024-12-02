@@ -11,6 +11,8 @@ const commit = ref(null);
 const commit_date = ref(null);
 const page = ref(1);
 const pages = ref(1);
+const filter = ref(false);
+const refreshKey = ref(1);
 
 async function getReqts(page) {
   fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
