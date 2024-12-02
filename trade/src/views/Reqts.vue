@@ -29,7 +29,7 @@ async function getReqts(page, filter) {
 
 getReqts(page, filter);
 
-function refreshData() {
+function refreshData(filter, refreshKey) {
   if (filter) {
     filter = false;
   } else {
@@ -44,7 +44,7 @@ function refreshData() {
 <template>
     <rux-container>
       <div class="card m-3">
-          <div class="card-body" :key="refreshKey">
+          <div class="card-body" :key="{{refreshKey}}">
               <div v-if="reqts!=null">
                 <div v-if="branch==null">
                   <div class="wrapper wrapper--small">
@@ -76,7 +76,7 @@ function refreshData() {
                   </div>
                   <rux-card class="w-full">
                     <div slot="header" style="display: flex; align-items: center;">
-                      <rux-button @click="refreshData">
+                      <rux-button @click="refreshData(filter, refreshKey)">
                           <rux-icon icon="filter-list" size="extra-small"></rux-icon>
                       </rux-button>
                       Requirements
