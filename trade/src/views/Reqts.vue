@@ -12,7 +12,7 @@ const commit_date = ref(null);
 const page = ref(1);
 const pages = ref(1);
 const filter = ref(false);
-const refreshKey = ref(0);
+//const refreshKey = ref(0);
 
 async function getReqts(page, filter) {
   fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
