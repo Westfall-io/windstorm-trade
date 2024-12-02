@@ -64,9 +64,7 @@ getReqts(page);
                   </div>
                   <rux-card class="w-full">
                     <div slot="header" style="display: flex; align-items: center;">
-                      <rux-button>
-                          <rux-icon icon="filter-list" size="extra-small"></rux-icon>
-                      </rux-button>
+                      
                       Requirements
                     </div>
                     <rux-table>
