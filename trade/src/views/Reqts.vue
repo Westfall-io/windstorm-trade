@@ -32,7 +32,7 @@ getReqts(page);
 <template>
     <rux-container>
       <div class="card m-3">
-          <div class="card-body">
+          <div class="card-body" >
               <div v-if="reqts!=null">
                 <div v-if="branch==null">
                   <div class="wrapper wrapper--small">
@@ -64,6 +64,9 @@ getReqts(page);
                   </div>
                   <rux-card class="w-full">
                     <div slot="header" style="display: flex; align-items: center;">
+                      <rux-button>
+                          <rux-icon icon="filter-list" size="extra-small"></rux-icon>
+                      </rux-button>
                       Requirements
                     </div>
                     <rux-table>
