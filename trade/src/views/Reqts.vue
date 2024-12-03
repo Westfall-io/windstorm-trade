@@ -5,14 +5,14 @@ import API_Wait from '../components/links/API_Wait.vue';
 
 import * as defaults from '../constants.tsx'
 
-var reqts = ref(null);
-var branch = ref(null);
-var commit = ref(null);
-var commit_date = ref(null);
-var page = ref(1);
-var pages = ref(1);
-var filter = ref(false);
-var refreshKey = ref(1);
+const reqts = ref(null);
+const branch = ref(null);
+const commit = ref(null);
+const commit_date = ref(null);
+const page = ref(1);
+const pages = ref(1);
+const filter = ref(false);
+const refreshKey = ref(1);
 
 async function getReqts(page) {
   fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
@@ -29,20 +29,24 @@ async function getReqts(page) {
 
 getReqts(page);
 
-function refreshData(refreshKey, page) {
+function refreshData(refreshKey) {
   console.log(refreshKey)
   //refreshKey++;
   fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
     .then(response => response.json())
     .then(data => {
-      this.reqts.value = data.results;
-      this.branch.value = data.default_branch;
-      this.commit.value = data.commit;
-      this.commit_date.value = data.commit_date;
-      this.page.value=data.page;
-      this.pages.value=data.pages;
+      reqts.value = data.results;
+      branch.value = data.default_branch;
+      commit.value = data.commit;
+      commit_date.value = data.commit_date;
+      page.value=data.page;
+      pages.value=data.pages;
     });
 }
+
+watch(reqts, () => {
+  console.log("season watch")
+})
 
 </script>
 
