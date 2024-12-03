@@ -5,14 +5,14 @@ import API_Wait from '../components/links/API_Wait.vue';
 
 import * as defaults from '../constants.tsx'
 
-const reqts = ref(null);
-const branch = ref(null);
-const commit = ref(null);
-const commit_date = ref(null);
-const page = ref(1);
-const pages = ref(1);
-const filter = ref(false);
-const refreshKey = ref(1);
+var reqts = ref(null);
+var branch = ref(null);
+var commit = ref(null);
+var commit_date = ref(null);
+var page = ref(1);
+var pages = ref(1);
+var filter = ref(false);
+var refreshKey = ref(1);
 
 async function getReqts(page) {
   fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
