@@ -31,8 +31,8 @@ getReqts(page);
 
 function refreshData(refreshKey, page) {
   console.log(refreshKey)
-  refreshKey.value++;
-  getReqts(page+1);
+  //refreshKey++;
+  getReqts(page);
 }
 
 </script>
