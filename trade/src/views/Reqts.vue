@@ -32,7 +32,7 @@ getReqts(page);
 function refreshData(refreshKey) {
   console.log(refreshKey)
   //refreshKey++;
-  fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
+  fetch(defaults.api_addr+'/views/requirements/?size=10&page='+page.value)
     .then(response => response.json())
     .then(data => {
       reqts.value = data.results;
