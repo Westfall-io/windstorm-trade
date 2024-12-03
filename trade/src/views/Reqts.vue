@@ -15,7 +15,7 @@ const filter = ref(false);
 const refreshKey = ref(1);
 
 async function getReqts(page) {
-  fetch(defaults.api_addr+'/views/requirements/?size=25&page='+page.value)
+  fetch(defaults.api_addr+'/views/requirements/?size=25&filter_empty='+filter.value+'&page='+page.value)
     .then(response => response.json())
     .then(data => {
       reqts.value = data.results;
@@ -30,9 +30,9 @@ async function getReqts(page) {
 getReqts(page);
 
 function refreshData(refreshKey) {
-  console.log(refreshKey)
-  //refreshKey++;
-  fetch(defaults.api_addr+'/views/requirements/?size=10&page='+page.value)
+  console.log(filter.value);
+  filter.value = !filter.value;
+  fetch(defaults.api_addr+'/views/requirements/?size=25&filter_empty='+filter.value+'&page='+page.value)
     .then(response => response.json())
     .then(data => {
       reqts.value = data.results;
@@ -45,7 +45,7 @@ function refreshData(refreshKey) {
 }
 
 watch(reqts, () => {
-  console.log("season watch")
+  console.log("Collecting new data.")
 })
 
 </script>
