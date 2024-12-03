@@ -30,9 +30,9 @@ async function getReqts(page) {
 getReqts(page);
 
 function refreshData(refreshKey, page) {
-  console.log('Pushed')
+  console.log(refreshKey)
   refreshKey.value++;
-  getReqts(page);
+  getReqts(page+1);
 }
 
 </script>
