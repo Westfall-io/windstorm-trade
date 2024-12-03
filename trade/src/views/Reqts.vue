@@ -30,6 +30,7 @@ async function getReqts(page) {
 getReqts(page);
 
 function refreshData() {
+  console.log('Pushed')
   refreshKey++;
   getReqts(page);
 }
