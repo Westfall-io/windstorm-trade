@@ -34,7 +34,7 @@ getReqts(page);
 <template>
     <rux-container>
       <div class="card m-3">
-          <div class="card-body" >
+          <div class="card-body" :key="{{refreshKey}}">
               <div v-if="reqts!=null">
                 <div v-if="branch==null">
                   <div class="wrapper wrapper--small">
@@ -68,7 +68,7 @@ getReqts(page);
                     <div slot="header" style="display: flex; align-items: center;">
                       <div>
                         <rux-button size="small">
-                          <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24"><path d="M3 7C3 7.55 3.45 8 4 8H20C20.55 8 21 7.55 21 7C21 6.45 20.55 6 20 6H4C3.45 6 3 6.45 3 7ZM11 18H13C13.55 18 14 17.55 14 17C14 16.45 13.55 16 13 16H11C10.45 16 10 16.45 10 17C10 17.55 10.45 18 11 18ZM17 13H7C6.45 13 6 12.55 6 12C6 11.45 6.45 11 7 11H17C17.55 11 18 11.45 18 12C18 12.55 17.55 13 17 13Z" fill="currentColor"></path></svg>
+                          <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"><path d="M3 7C3 7.55 3.45 8 4 8H20C20.55 8 21 7.55 21 7C21 6.45 20.55 6 20 6H4C3.45 6 3 6.45 3 7ZM11 18H13C13.55 18 14 17.55 14 17C14 16.45 13.55 16 13 16H11C10.45 16 10 16.45 10 17C10 17.55 10.45 18 11 18ZM17 13H7C6.45 13 6 12.55 6 12C6 11.45 6.45 11 7 11H17C17.55 11 18 11.45 18 12C18 12.55 17.55 13 17 13Z" fill="currentColor"></path></svg>
                         </rux-button>
                       </div>
                       <div class="pl-2">
