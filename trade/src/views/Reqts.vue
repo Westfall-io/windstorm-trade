@@ -34,7 +34,7 @@ getReqts(page);
 <template>
     <rux-container>
       <div class="card m-3">
-          <div class="card-body" :key="{{refreshKey}}">
+          <div class="card-body" :key=refreshKey>
               <div v-if="reqts!=null">
                 <div v-if="branch==null">
                   <div class="wrapper wrapper--small">
