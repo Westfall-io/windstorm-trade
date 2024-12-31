@@ -39,7 +39,7 @@ const { isOpen } = useSidebar()
     </div>
 
     <div style="display: flex; justify-content: center;">
-      <rux-global-status-bar include-icon="" menu-icon="whatshot" app-state="Alpha" app-state-color="tag1" app-domain="DigitalForge" app-name="Dashboard" app-version="0.1.0 Alpha">
+      <rux-global-status-bar include-icon="" menu-icon="whatshot" app-state="Alpha" app-state-color="tag1" app-domain="DigitalForge" app-name="Dashboard" app-version="0.2.0 Alpha">
       </rux-global-status-bar>
     </div>
   </header>
