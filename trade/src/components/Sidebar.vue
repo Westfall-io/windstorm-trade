@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Sidebar navigation component. Uses the `useSidebar` composable
+// to reactively read and modify the global sidebar open/closed state.
+// Also exposes helper classes for active/inactive link styles.
 import { ref } from 'vue'
 import { useSidebar } from '../composables/useSidebar'
 

@@ -1,5 +1,16 @@
 import { ref } from 'vue'
 
+/**
+ * Small helper module that provides example table data used by UI
+ * templates and components in the demo dashboard.
+ *
+ * - `ISimpleTableData`: compact summary rows for small cards.
+ * - `IPaginatedTableData`: rows with avatar and metadata for paginated lists.
+ * - `IWideTableData`: wider rows for larger tables.
+ *
+ * `useTableData()` returns three reactive refs containing mock/example
+ * data sets for use in UI previews and stories.
+ */
 export interface ISimpleTableData {
   city: string
   totalOrders: string
@@ -24,6 +35,7 @@ export interface IWideTableData {
 }
 
 export function useTableData() {
+  // Example datasets used by the templates in the UI.
   const simpleTableData = ref<ISimpleTableData[]>([
     { city: 'New York', totalOrders: '200,120' },
     { city: 'Manchester', totalOrders: '632,310' },

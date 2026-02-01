@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Header component for the dashboard. Provides a toggle for the
+// responsive sidebar and renders the global status bar and
+// classification marking components.
 import { ref } from 'vue'
 import { useSidebar } from '../composables/useSidebar'
 

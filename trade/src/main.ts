@@ -1,3 +1,11 @@
+/**
+ * Main application entrypoint.
+ *
+ * - Creates and mounts the Vue application.
+ * - Registers global layout components.
+ * - Imports and registers third-party web components from Astro UXDS
+ *   so they can be used as custom elements inside Vue templates.
+ */
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -52,6 +60,8 @@ customElements.define('rux-button', RuxButton)
 import { RuxNotification } from '@astrouxds/astro-web-components/dist/components/rux-notification'
 customElements.define('rux-notification', RuxNotification)
 
+// Create the Vue app, register global layout components and router,
+// then mount to the DOM element with id `#app`.
 const app = createApp(App)
 
 //await vueKeycloak.install(app, {

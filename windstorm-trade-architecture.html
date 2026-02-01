@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windstorm-Trade System Architecture - SysML v2 Models</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background: #f8fafc;
+            padding: 20px 40px;
+            border-bottom: 2px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #1e3a8a;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            background: white;
+            border: 2px solid #e2e8f0;
+        }
+        
+        nav a:hover {
+            background: #1e3a8a;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        }
+        
+        main {
+            padding: 40px;
+        }
+        
+        section {
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 5px solid #3b82f6;
+        }
+        
+        h2 {
+            color: #1e3a8a;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3b82f6;
+        }
+        
+        h3 {
+            color: #1e40af;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+        
+        h4 {
+            color: #2563eb;
+            font-size: 1.2em;
+            margin: 20px 0 10px 0;
+        }
+        
+        .diagram-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 25px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .sysml-code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin: 20px 0;
+            border: 2px solid #334155;
+        }
+        
+        .sysml-code .keyword {
+            color: #60a5fa;
+            font-weight: bold;
+        }
+        
+        .sysml-code .type {
+            color: #34d399;
+        }
+        
+        .sysml-code .string {
+            color: #fbbf24;
+        }
+        
+        .sysml-code .comment {
+            color: #94a3b8;
+            font-style: italic;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        
+        .info-box h4 {
+            color: #1e40af;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        
+        .warning-box h4 {
+            color: #d97706;
+            margin-top: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: #1e3a8a;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:hover {
+            background: #f1f5f9;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            border-color: #3b82f6;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
+        }
+        
+        .tech-item h4 {
+            color: #1e3a8a;
+            margin-top: 0;
+        }
+        
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #dc2626;
+        }
+        
+        footer {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            nav {
+                display: none;
+            }
+            section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Windstorm-Trade System Architecture</h1>
+            <p>DigitalForge Frontend - SysML v2 Models & Deployment Design</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#sysml-package">SysML Package</a></li>
+                <li><a href="#physical-arch">Physical Architecture</a></li>
+                <li><a href="#functional-arch">Functional Architecture</a></li>
+                <li><a href="#deployment">Deployment Design</a></li>
+                <li><a href="#data-flow">Data Flow</a></li>
+                <li><a href="#tech-stack">Technology Stack</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <!-- SYSTEM OVERVIEW -->
+            <section id="overview">
+                <h2>📋 System Overview</h2>
+                
+                <div class="info-box">
+                    <h4>Project: Windstorm-Trade (DigitalForge Frontend)</h4>
+                    <p><strong>Purpose:</strong> Web-based frontend application for the DigitalForge platform, providing continuous requirement validation for software-defined systems via the SysMLv2 standard.</p>
+                    <p><strong>Architecture:</strong> Vue.js 3 Single Page Application (SPA) with Astro UXDS components</p>
+                    <p><strong>Deployment:</strong> Containerized using Docker with Node.js runtime</p>
+                </div>
+                
+                <h3>Key Capabilities</h3>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li><strong>Model Management:</strong> View and manage SysMLv2 models, branches, and commits</li>
+                    <li><strong>Requirements Engineering:</strong> Track and validate system requirements</li>
+                    <li><strong>Thread Management:</strong> Monitor verification threads and their execution status</li>
+                    <li><strong>Artifact Integration:</strong> Interface with configuration and container registries</li>
+                    <li><strong>Verification Dashboards:</strong> Real-time monitoring of continuous verification processes</li>
+                </ul>
+                
+                <h3>External System Dependencies</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>System</th>
+                            <th>Purpose</th>
+                            <th>URL Pattern</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Windstorm API</strong></td>
+                            <td>Backend REST API for data operations</td>
+                            <td>windstorm-api.digitalforge.app</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Artifact Repository</strong></td>
+                            <td>Configuration artifact storage</td>
+                            <td>configs.digitalforge.app</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Harbor Registry</strong></td>
+                            <td>Container image registry</td>
+                            <td>harbor.digitalforge.app</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Model Repository</strong></td>
+                            <td>SysMLv2 model version control</td>
+                            <td>models.digitalforge.app</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JupyterHub</strong></td>
+                            <td>Model editing environment</td>
+                            <td>jupyter.westfall.io</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MinIO Storage</strong></td>
+                            <td>Verification output artifact storage</td>
+                            <td>storage.westfall.io</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- SYSML V2 PACKAGE DIAGRAM -->
+            <section id="sysml-package">
+                <h2>📦 SysML v2 Package Structure</h2>
+                
+                <div class="sysml-code">
+<span class="keyword">package</span> <span class="type">WindstormTrade</span> {
+    <span class="comment">// Top-level package for the DigitalForge frontend system</span>
+    <span class="keyword">import</span> <span class="type">ScalarValues</span>::*;
+    <span class="keyword">import</span> <span class="type">ISQ</span>::*;
+    
+    <span class="keyword">package</span> <span class="type">Requirements</span> {
+        <span class="comment">// Requirements for the frontend system</span>
+        
+        <span class="keyword">requirement def</span> <span class="type">FunctionalRequirements</span> {
+            <span class="keyword">doc</span> <span class="comment">/* Frontend shall provide web-based user interface for 
+                   SysMLv2 model management and continuous verification */</span>
+            
+            <span class="keyword">requirement</span> <span class="type">modelVisualization</span> {
+                <span class="keyword">doc</span> <span class="comment">/* Display SysMLv2 models, branches, and commits */</span>
+            }
+            
+            <span class="keyword">requirement</span> <span class="type">requirementTracking</span> {
+                <span class="keyword">doc</span> <span class="comment">/* Track and display system requirements */</span>
+            }
+            
+            <span class="keyword">requirement</span> <span class="type">verificationMonitoring</span> {
+                <span class="keyword">doc</span> <span class="comment">/* Monitor verification threads and execution status */</span>
+            }
+            
+            <span class="keyword">requirement</span> <span class="type">dashboardReporting</span> {
+                <span class="keyword">doc</span> <span class="comment">/* Provide summary dashboard with system metrics */</span>
+            }
+        }
+        
+        <span class="keyword">requirement def</span> <span class="type">NonFunctionalRequirements</span> {
+            <span class="keyword">requirement</span> <span class="type">responsiveness</span> {
+                <span class="keyword">doc</span> <span class="comment">/* UI shall be responsive and work on multiple devices */</span>
+            }
+            
+            <span class="keyword">requirement</span> <span class="type">accessibility</span> {
+                <span class="keyword">doc</span> <span class="comment">/* UI shall follow Astro UXDS guidelines for accessibility */</span>
+            }
+            
+            <span class="keyword">requirement</span> <span class="type">performance</span> {
+                <span class="keyword">doc</span> <span class="comment">/* Application shall load within 3 seconds */</span>
+            }
+        }
+    }
+    
+    <span class="keyword">package</span> <span class="type">Architecture</span> {
+        <span class="comment">// System architecture definitions</span>
+        
+        <span class="keyword">part def</span> <span class="type">WebApplication</span> {
+            <span class="keyword">doc</span> <span class="comment">/* Vue.js 3 Single Page Application */</span>
+            
+            <span class="keyword">part</span> <span class="type">router</span> : <span class="type">VueRouter</span>;
+            <span class="keyword">part</span> <span class="type">stateManager</span> : <span class="type">VueReactivity</span>;
+            <span class="keyword">part</span> <span class="type">uiComponents</span> : <span class="type">AstroUXDS</span>;
+            
+            <span class="keyword">port</span> <span class="type">apiPort</span> : <span class="type">HTTPSPort</span>;
+        }
+        
+        <span class="keyword">part def</span> <span class="type">BackendServices</span> {
+            <span class="keyword">part</span> <span class="type">windstormAPI</span> : <span class="type">RESTService</span>;
+            <span class="keyword">part</span> <span class="type">artifactRepo</span> : <span class="type">GitRepository</span>;
+            <span class="keyword">part</span> <span class="type">harborRegistry</span> : <span class="type">ContainerRegistry</span>;
+            <span class="keyword">part</span> <span class="type">modelRepo</span> : <span class="type">GitRepository</span>;
+        }
+        
+        <span class="keyword">part def</span> <span class="type">DeploymentInfrastructure</span> {
+            <span class="keyword">part</span> <span class="type">containerRuntime</span> : <span class="type">Docker</span>;
+            <span class="keyword">part</span> <span class="type">webServer</span> : <span class="type">HTTPServer</span>;
+            <span class="keyword">part</span> <span class="type">buildSystem</span> : <span class="type">ViteBuildTool</span>;
+        }
+    }
+    
+    <span class="keyword">package</span> <span class="type">Interfaces</span> {
+        <span class="comment">// Interface definitions</span>
+        
+        <span class="keyword">interface def</span> <span class="type">HTTPSPort</span> {
+            <span class="keyword">attribute</span> <span class="type">protocol</span> : <span class="type">String</span> = <span class="string">"HTTPS"</span>;
+            <span class="keyword">attribute</span> <span class="type">port</span> : <span class="type">Integer</span> = 8080;
+        }
+        
+        <span class="keyword">interface def</span> <span class="type">RESTInterface</span> {
+            <span class="keyword">attribute</span> <span class="type">baseURL</span> : <span class="type">String</span>;
+            <span class="keyword">attribute</span> <span class="type">contentType</span> : <span class="type">String</span> = <span class="string">"application/json"</span>;
+        }
+    }
+    
+    <span class="keyword">package</span> <span class="type">Components</span> {
+        <span class="comment">// Component definitions</span>
+        
+        <span class="keyword">part def</span> <span class="type">DashboardView</span> {
+            <span class="keyword">doc</span> <span class="comment">/* Main dashboard displaying system metrics */</span>
+            <span class="keyword">attribute</span> <span class="type">modelsCount</span> : <span class="type">Integer</span>;
+            <span class="keyword">attribute</span> <span class="type">requirementsCount</span> : <span class="type">Integer</span>;
+            <span class="keyword">attribute</span> <span class="type">threadsCount</span> : <span class="type">Integer</span>;
+        }
+        
+        <span class="keyword">part def</span> <span class="type">RequirementsView</span> {
+            <span class="keyword">doc</span> <span class="comment">/* Requirements management interface */</span>
+        }
+        
+        <span class="keyword">part def</span> <span class="type">ThreadsView</span> {
+            <span class="keyword">doc</span> <span class="comment">/* Verification threads monitoring */</span>
+        }
+        
+        <span class="keyword">part def</span> <span class="type">ModelView</span> {
+            <span class="keyword">doc</span> <span class="comment">/* SysMLv2 model browser */</span>
+        }
+        
+        <span class="keyword">part def</span> <span class="type">VerificationsView</span> {
+            <span class="keyword">doc</span> <span class="comment">/* Verification results display */</span>
+        }
+    }
+    
+    <span class="keyword">package</span> <span class="type">Behaviors</span> {
+        <span class="comment">// Behavioral definitions</span>
+        
+        <span class="keyword">action def</span> <span class="type">FetchData</span> {
+            <span class="keyword">in</span> <span class="type">endpoint</span> : <span class="type">String</span>;
+            <span class="keyword">out</span> <span class="type">response</span> : <span class="type">JSON</span>;
+        }
+        
+        <span class="keyword">action def</span> <span class="type">RenderView</span> {
+            <span class="keyword">in</span> <span class="type">data</span> : <span class="type">JSON</span>;
+            <span class="keyword">out</span> <span class="type">htmlElements</span> : <span class="type">DOM</span>;
+        }
+        
+        <span class="keyword">action def</span> <span class="type">NavigateRoute</span> {
+            <span class="keyword">in</span> <span class="type">path</span> : <span class="type">String</span>;
+        }
+    }
+}
+                </div>
+            </section>
+
+            <!-- PHYSICAL ARCHITECTURE -->
+            <section id="physical-arch">
+                <h2>🏗️ Physical Architecture</h2>
+                
+                <div class="info-box">
+                    <h4>Architecture Pattern: Multi-Tier Web Application</h4>
+                    <p>The system follows a standard multi-tier architecture with clear separation between presentation, application, and data tiers.</p>
+                </div>
+                
+                <div class="diagram-container">
+                    <h3>High-Level Physical Architecture</h3>
+                    <div class="mermaid">
+graph TB
+    subgraph "Client Tier"
+        Browser[Web Browser]
+    end
+    
+    subgraph "Presentation Tier - Windstorm-Trade Container"
+        WebServer[HTTP Server<br/>Port 8080]
+        SPA[Vue.js SPA<br/>Static Assets]
+    end
+    
+    subgraph "Application Tier - Backend Services"
+        API[Windstorm API<br/>REST Endpoints]
+        AuthSvc[Keycloak<br/>Authentication Service]
+    end
+    
+    subgraph "Data Tier - External Systems"
+        ModelGit[Model Git Repository<br/>SysMLv2 Models]
+        ArtifactGit[Artifact Git Repository<br/>Configurations]
+        Harbor[Harbor Registry<br/>Container Images]
+        Minio[MinIO<br/>Object Storage]
+        Jupyter[JupyterHub<br/>Model Editing]
+    end
+    
+    Browser -->|HTTPS| WebServer
+    WebServer --> SPA
+    SPA -->|REST API Calls| API
+    SPA -.->|Optional Auth| AuthSvc
+    
+    API --> ModelGit
+    API --> ArtifactGit
+    API --> Harbor
+    API --> Minio
+    
+    Browser -.->|Direct Links| Jupyter
+    Browser -.->|Direct Links| ModelGit
+    Browser -.->|Direct Links| ArtifactGit
+    Browser -.->|Direct Links| Harbor
+    Browser -.->|Direct Links| Minio
+    
+    style Browser fill:#4f46e5,stroke:#312e81,color:#fff
+    style SPA fill:#059669,stroke:#065f46,color:#fff
+    style WebServer fill:#0891b2,stroke:#164e63,color:#fff
+    style API fill:#dc2626,stroke:#991b1b,color:#fff
+    style ModelGit fill:#7c3aed,stroke:#5b21b6,color:#fff
+    style ArtifactGit fill:#7c3aed,stroke:#5b21b6,color:#fff
+    style Harbor fill:#ea580c,stroke:#9a3412,color:#fff
+    style Minio fill:#ca8a04,stroke:#854d0e,color:#fff
+                    </div>
+                </div>
+                
+                <div class="diagram-container">
+                    <h3>Component Physical Deployment</h3>
+                    <div class="mermaid">
+graph TB
+    subgraph Container["Docker Container: windstorm-trade"]
+        subgraph Runtime["Node.js Runtime Environment"]
+            HttpSrv[http-server<br/>Static File Server]
+            DistDir[dist/ directory<br/>Build Output]
+        end
+    end
+    
+    subgraph Artifacts["Build Artifacts in dist/"]
+        JS[index.js<br/>Bundled JavaScript]
+        CSS[main.css<br/>Compiled Styles]
+        Assets[assets/<br/>Images & Fonts]
+        Index[index.html<br/>SPA Entry Point]
+    end
+    
+    HttpSrv -->|Serves| DistDir
+    DistDir -->|Contains| JS
+    DistDir -->|Contains| CSS
+    DistDir -->|Contains| Assets
+    DistDir -->|Contains| Index
+    
+    Client[Web Browser] -->|HTTP GET /| HttpSrv
+    HttpSrv -->|Returns| Index
+    Index -->|Loads| JS
+    Index -->|Loads| CSS
+    Index -->|Loads| Assets
+    
+    style HttpSrv fill:#0891b2,stroke:#164e63,color:#fff
+    style DistDir fill:#059669,stroke:#065f46,color:#fff
+    style JS fill:#fbbf24,stroke:#92400e,color:#000
+    style CSS fill:#3b82f6,stroke:#1e40af,color:#fff
+    style Assets fill:#8b5cf6,stroke:#5b21b6,color:#fff
+    style Index fill:#ef4444,stroke:#991b1b,color:#fff
+    style Client fill:#4f46e5,stroke:#312e81,color:#fff
+                    </div>
+                </div>
+                
+                <h3>Physical Component Specifications</h3>
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <h4>🐳 Container Runtime</h4>
+                        <p><strong>Base Image:</strong> node:20-slim</p>
+                        <p><strong>Package Manager:</strong> pnpm via corepack</p>
+                        <p><strong>Server:</strong> http-server (npm package)</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🌐 Web Server</h4>
+                        <p><strong>Type:</strong> Static File Server</p>
+                        <p><strong>Port:</strong> 8080</p>
+                        <p><strong>Protocol:</strong> HTTP/HTTPS</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>💾 Storage Requirements</h4>
+                        <p><strong>Build Size:</strong> ~50-100 MB</p>
+                        <p><strong>Runtime Memory:</strong> ~512 MB</p>
+                        <p><strong>Temp Storage:</strong> Ephemeral</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🔗 Network Interfaces</h4>
+                        <p><strong>Ingress:</strong> Port 8080</p>
+                        <p><strong>Egress:</strong> HTTPS (443) to APIs</p>
+                        <p><strong>DNS:</strong> digitalforge.app domain</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FUNCTIONAL ARCHITECTURE -->
+            <section id="functional-arch">
+                <h2>⚙️ Functional Architecture</h2>
+                
+                <div class="diagram-container">
+                    <h3>Functional Component Diagram</h3>
+                    <div class="mermaid">
+graph TB
+    subgraph "Presentation Layer"
+        Router[Vue Router<br/>Route Management]
+        Views[View Components<br/>Dashboard, Threads, etc.]
+        Layout[Layout Components<br/>Header, Sidebar]
+        UIComp[UI Components<br/>Astro UXDS]
+    end
+    
+    subgraph "Application Logic Layer"
+        StateMan[State Management<br/>Vue Reactivity]
+        Composables[Composables<br/>useSidebar, useTableData]
+        DataFetch[Data Fetching<br/>Fetch API]
+    end
+    
+    subgraph "Integration Layer"
+        APIClient[API Client<br/>REST Integration]
+        Constants[Configuration<br/>API Endpoints]
+    end
+    
+    subgraph "External Services"
+        WindAPI[Windstorm API]
+        ArtifactAPI[Artifact Service]
+        HarborAPI[Harbor API]
+        ModelAPI[Model Service]
+    end
+    
+    Router --> Views
+    Views --> Layout
+    Views --> UIComp
+    Views --> StateMan
+    StateMan --> Composables
+    Views --> DataFetch
+    DataFetch --> APIClient
+    APIClient --> Constants
+    
+    APIClient -->|HTTPS| WindAPI
+    APIClient -->|HTTPS| ArtifactAPI
+    APIClient -->|HTTPS| HarborAPI
+    APIClient -->|HTTPS| ModelAPI
+    
+    style Router fill:#4f46e5,stroke:#312e81,color:#fff
+    style Views fill:#059669,stroke:#065f46,color:#fff
+    style StateMan fill:#0891b2,stroke:#164e63,color:#fff
+    style APIClient fill:#dc2626,stroke:#991b1b,color:#fff
+                    </div>
+                </div>
+                
+                <div class="diagram-container">
+                    <h3>Use Case Diagram</h3>
+                    <div class="mermaid">
+graph LR
+    User((User))
+    
+    subgraph "DigitalForge Frontend Use Cases"
+        UC1[View Dashboard<br/>Summary Metrics]
+        UC2[Browse Requirements]
+        UC3[Monitor Threads]
+        UC4[View Verifications]
+        UC5[Explore Models<br/>Branches & Commits]
+        UC6[View Artifacts]
+        UC7[Check Containers]
+        UC8[Navigate to<br/>External Tools]
+    end
+    
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    User --> UC7
+    User --> UC8
+    
+    style User fill:#4f46e5,stroke:#312e81,color:#fff
+    style UC1 fill:#059669,stroke:#065f46,color:#fff
+    style UC2 fill:#0891b2,stroke:#164e63,color:#fff
+    style UC3 fill:#7c3aed,stroke:#5b21b6,color:#fff
+    style UC4 fill:#ea580c,stroke:#9a3412,color:#fff
+    style UC5 fill:#ca8a04,stroke:#854d0e,color:#fff
+                    </div>
+                </div>
+                
+                <h3>Key Functional Modules</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Module</th>
+                            <th>Responsibility</th>
+                            <th>Key Files</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Routing</strong></td>
+                            <td>Client-side navigation and URL management</td>
+                            <td>router.ts, App.vue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dashboard</strong></td>
+                            <td>Display system metrics and overview</td>
+                            <td>views/Dashboard.vue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Requirements</strong></td>
+                            <td>Manage and display requirements</td>
+                            <td>views/Reqts.vue, views/Reqt.vue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Threads</strong></td>
+                            <td>Monitor verification threads</td>
+                            <td>views/Threads.vue, views/Thread.vue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Model Browser</strong></td>
+                            <td>Browse SysMLv2 models and commits</td>
+                            <td>views/Model_*.vue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Verification</strong></td>
+                            <td>Display verification results</td>
+                            <td>views/Verifications.vue, views/Verification.vue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Layout Management</strong></td>
+                            <td>Consistent page structure</td>
+                            <td>components/DashboardLayout.vue, Header.vue, Sidebar.vue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UI Components</strong></td>
+                            <td>Reusable Astro UXDS components</td>
+                            <td>main.ts (component registration)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- DATA FLOW -->
+            <section id="data-flow">
+                <h2>🔄 Data Flow Architecture</h2>
+                
+                <div class="diagram-container">
+                    <h3>Request/Response Data Flow</h3>
+                    <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Browser
+    participant VueApp
+    participant Router
+    participant View
+    participant API
+    participant Backend
+    
+    User->>Browser: Navigate to /threads
+    Browser->>VueApp: Route Change Event
+    VueApp->>Router: Match Route
+    Router->>View: Load Threads.vue
+    View->>View: Component Setup
+    View->>API: fetch(api_addr + '/views/threads/')
+    API->>Backend: GET /views/threads/?size=10&page=1
+    Backend-->>API: JSON Response
+    API-->>View: Parse JSON
+    View->>View: Update Reactive State
+    View->>Browser: Render Component
+    Browser->>User: Display Threads List
+    
+    User->>Browser: Click on Thread
+    Browser->>Router: Navigate to /thread/:id
+    Router->>View: Load Thread.vue
+    View->>API: fetch(api_addr + '/views/thread/:id')
+    API->>Backend: GET /views/thread/:id
+    Backend-->>API: JSON Response
+    API-->>View: Parse JSON
+    View->>Browser: Render Thread Details
+    Browser->>User: Display Thread Information
+                    </div>
+                </div>
+                
+                <div class="diagram-container">
+                    <h3>State Management Flow</h3>
+                    <div class="mermaid">
+graph TB
+    User[User Action]
+    Event[DOM Event]
+    Handler[Event Handler]
+    State[Reactive State<br/>ref/reactive]
+    View[View Update]
+    DOM[DOM Render]
+    
+    User --> Event
+    Event --> Handler
+    Handler --> State
+    State --> View
+    View --> DOM
+    DOM -.->|User Sees Changes| User
+    
+    API[API Call]
+    Handler --> API
+    API --> State
+    
+    style State fill:#4f46e5,stroke:#312e81,color:#fff
+    style View fill:#059669,stroke:#065f46,color:#fff
+    style API fill:#dc2626,stroke:#991b1b,color:#fff
+                    </div>
+                </div>
+                
+                <h3>API Endpoints</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Endpoint</th>
+                            <th>Method</th>
+                            <th>Purpose</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>/views/count_models/</td>
+                            <td>GET</td>
+                            <td>Get total model count</td>
+                            <td>{ "models": number }</td>
+                        </tr>
+                        <tr>
+                            <td>/views/count_requirements/</td>
+                            <td>GET</td>
+                            <td>Get total requirements count</td>
+                            <td>{ "requirements": number }</td>
+                        </tr>
+                        <tr>
+                            <td>/views/count_threads/</td>
+                            <td>GET</td>
+                            <td>Get total threads count</td>
+                            <td>{ "threads": number }</td>
+                        </tr>
+                        <tr>
+                            <td>/views/threads/?size=10&page=1</td>
+                            <td>GET</td>
+                            <td>Get paginated threads list</td>
+                            <td>{ "results": [], "page": 1, "pages": n, ... }</td>
+                        </tr>
+                        <tr>
+                            <td>/views/thread/:id</td>
+                            <td>GET</td>
+                            <td>Get specific thread details</td>
+                            <td>{ thread object }</td>
+                        </tr>
+                        <tr>
+                            <td>/views/requirements/</td>
+                            <td>GET</td>
+                            <td>Get requirements list</td>
+                            <td>{ "results": [] }</td>
+                        </tr>
+                        <tr>
+                            <td>/views/verifications/</td>
+                            <td>GET</td>
+                            <td>Get verifications list</td>
+                            <td>{ "results": [] }</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- DEPLOYMENT DESIGN -->
+            <section id="deployment">
+                <h2>🚀 Deployment Design</h2>
+                
+                <div class="diagram-container">
+                    <h3>Container Deployment Architecture</h3>
+                    <div class="mermaid">
+graph TB
+    subgraph "Development Environment"
+        DevMachine[Developer Machine]
+        SourceCode[Source Code<br/>Git Repository]
+        DevMachine -->|git push| SourceCode
+    end
+    
+    subgraph "CI/CD Pipeline"
+        GitHub[GitHub Actions<br/>Workflow]
+        DockerBuild[Docker Build<br/>Multi-stage Build]
+        Registry[Container Registry<br/>GitHub CR / Harbor]
+        
+        SourceCode -->|Trigger| GitHub
+        GitHub --> DockerBuild
+        DockerBuild -->|Push Image| Registry
+    end
+    
+    subgraph "Production Environment"
+        K8s[Kubernetes Cluster]
+        Ingress[Ingress Controller<br/>NGINX/Traefik]
+        Service[Kubernetes Service<br/>ClusterIP]
+        Deployment[Deployment<br/>windstorm-trade]
+        Pods[Pod Replicas<br/>3x instances]
+        
+        Registry -->|Pull Image| Deployment
+        Deployment --> Pods
+        Pods --> Service
+        Service --> Ingress
+    end
+    
+    Internet[Internet]
+    Internet -->|HTTPS| Ingress
+    
+    style GitHub fill:#4f46e5,stroke:#312e81,color:#fff
+    style DockerBuild fill:#059669,stroke:#065f46,color:#fff
+    style Registry fill:#0891b2,stroke:#164e63,color:#fff
+    style Deployment fill:#dc2626,stroke:#991b1b,color:#fff
+    style Pods fill:#7c3aed,stroke:#5b21b6,color:#fff
+                    </div>
+                </div>
+                
+                <div class="diagram-container">
+                    <h3>Docker Build Process</h3>
+                    <div class="mermaid">
+graph LR
+    subgraph "Build Stage"
+        BaseImage[node:20-slim]
+        InstallPnpm[Install pnpm]
+        CopyPkg[Copy package.json]
+        InstallDeps[pnpm install]
+        CopySource[Copy source files]
+        Build[pnpm build]
+    end
+    
+    subgraph "Runtime Stage"
+        ServeStatic[http-server dist/]
+        ExposePort[Expose Port 8080]
+    end
+    
+    BaseImage --> InstallPnpm
+    InstallPnpm --> CopyPkg
+    CopyPkg --> InstallDeps
+    InstallDeps --> CopySource
+    CopySource --> Build
+    Build --> ServeStatic
+    ServeStatic --> ExposePort
+    
+    style Build fill:#059669,stroke:#065f46,color:#fff
+    style ServeStatic fill:#0891b2,stroke:#164e63,color:#fff
+    style ExposePort fill:#dc2626,stroke:#991b1b,color:#fff
+                    </div>
+                </div>
+                
+                <h3>Deployment Specifications</h3>
+                
+                <h4>Docker Configuration</h4>
+                <div class="sysml-code">
+<span class="comment"># Dockerfile Breakdown</span>
+
+<span class="keyword">FROM</span> node:20-slim
+<span class="keyword">RUN</span> npm install -g http-server
+
+<span class="comment"># Enable pnpm package manager</span>
+<span class="keyword">ENV</span> PNPM_HOME=<span class="string">"/pnpm"</span>
+<span class="keyword">ENV</span> PATH=<span class="string">"$PNPM_HOME:$PATH"</span>
+<span class="keyword">RUN</span> corepack enable
+
+<span class="comment"># Set working directory</span>
+<span class="keyword">WORKDIR</span> /app
+
+<span class="comment"># Install dependencies</span>
+<span class="keyword">COPY</span> trade/package*.json ./
+<span class="keyword">RUN</span> pnpm install i @astrouxds/tailwind
+<span class="keyword">RUN</span> pnpm install
+
+<span class="comment"># Build application</span>
+<span class="keyword">COPY</span> trade .
+<span class="keyword">RUN</span> pnpm build
+
+<span class="comment"># Start server</span>
+<span class="keyword">EXPOSE</span> 8080
+<span class="keyword">CMD</span> [ <span class="string">"http-server"</span>, <span class="string">"dist"</span> ]
+                </div>
+                
+                <h4>Kubernetes Deployment Example</h4>
+                <div class="sysml-code">
+<span class="keyword">apiVersion:</span> apps/v1
+<span class="keyword">kind:</span> Deployment
+<span class="keyword">metadata:</span>
+  <span class="keyword">name:</span> windstorm-trade
+  <span class="keyword">labels:</span>
+    <span class="keyword">app:</span> windstorm-trade
+<span class="keyword">spec:</span>
+  <span class="keyword">replicas:</span> 3
+  <span class="keyword">selector:</span>
+    <span class="keyword">matchLabels:</span>
+      <span class="keyword">app:</span> windstorm-trade
+  <span class="keyword">template:</span>
+    <span class="keyword">metadata:</span>
+      <span class="keyword">labels:</span>
+        <span class="keyword">app:</span> windstorm-trade
+    <span class="keyword">spec:</span>
+      <span class="keyword">containers:</span>
+      - <span class="keyword">name:</span> windstorm-trade
+        <span class="keyword">image:</span> ghcr.io/org/windstorm-trade:latest
+        <span class="keyword">ports:</span>
+        - <span class="keyword">containerPort:</span> 8080
+        <span class="keyword">resources:</span>
+          <span class="keyword">requests:</span>
+            <span class="keyword">memory:</span> <span class="string">"256Mi"</span>
+            <span class="keyword">cpu:</span> <span class="string">"100m"</span>
+          <span class="keyword">limits:</span>
+            <span class="keyword">memory:</span> <span class="string">"512Mi"</span>
+            <span class="keyword">cpu:</span> <span class="string">"500m"</span>
+        <span class="keyword">livenessProbe:</span>
+          <span class="keyword">httpGet:</span>
+            <span class="keyword">path:</span> /
+            <span class="keyword">port:</span> 8080
+          <span class="keyword">initialDelaySeconds:</span> 15
+          <span class="keyword">periodSeconds:</span> 10
+        <span class="keyword">readinessProbe:</span>
+          <span class="keyword">httpGet:</span>
+            <span class="keyword">path:</span> /
+            <span class="keyword">port:</span> 8080
+          <span class="keyword">initialDelaySeconds:</span> 5
+          <span class="keyword">periodSeconds:</span> 5
+---
+<span class="keyword">apiVersion:</span> v1
+<span class="keyword">kind:</span> Service
+<span class="keyword">metadata:</span>
+  <span class="keyword">name:</span> windstorm-trade
+<span class="keyword">spec:</span>
+  <span class="keyword">selector:</span>
+    <span class="keyword">app:</span> windstorm-trade
+  <span class="keyword">ports:</span>
+  - <span class="keyword">protocol:</span> TCP
+    <span class="keyword">port:</span> 80
+    <span class="keyword">targetPort:</span> 8080
+  <span class="keyword">type:</span> ClusterIP
+---
+<span class="keyword">apiVersion:</span> networking.k8s.io/v1
+<span class="keyword">kind:</span> Ingress
+<span class="keyword">metadata:</span>
+  <span class="keyword">name:</span> windstorm-trade
+  <span class="keyword">annotations:</span>
+    <span class="keyword">cert-manager.io/cluster-issuer:</span> <span class="string">"letsencrypt-prod"</span>
+<span class="keyword">spec:</span>
+  <span class="keyword">tls:</span>
+  - <span class="keyword">hosts:</span>
+    - windstorm.digitalforge.app
+    <span class="keyword">secretName:</span> windstorm-trade-tls
+  <span class="keyword">rules:</span>
+  - <span class="keyword">host:</span> windstorm.digitalforge.app
+    <span class="keyword">http:</span>
+      <span class="keyword">paths:</span>
+      - <span class="keyword">path:</span> /
+        <span class="keyword">pathType:</span> Prefix
+        <span class="keyword">backend:</span>
+          <span class="keyword">service:</span>
+            <span class="keyword">name:</span> windstorm-trade
+            <span class="keyword">port:</span>
+              <span class="keyword">number:</span> 80
+                </div>
+                
+                <div class="warning-box">
+                    <h4>⚠️ Deployment Considerations</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li><strong>Environment Variables:</strong> Configure API endpoints via environment variables or config maps</li>
+                        <li><strong>CORS:</strong> Ensure backend services have proper CORS headers configured</li>
+                        <li><strong>SSL/TLS:</strong> Use cert-manager for automated certificate management</li>
+                        <li><strong>Monitoring:</strong> Implement health checks and monitoring (Prometheus, Grafana)</li>
+                        <li><strong>Logging:</strong> Centralized logging with ELK stack or similar</li>
+                        <li><strong>Scaling:</strong> Configure horizontal pod autoscaler (HPA) based on CPU/memory</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- TECHNOLOGY STACK -->
+            <section id="tech-stack">
+                <h2>🛠️ Technology Stack</h2>
+                
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <h4>⚡ Frontend Framework</h4>
+                        <p><strong>Vue.js 3.3.4</strong></p>
+                        <p>Progressive JavaScript framework with Composition API</p>
+                        <p><code>Reactivity System, Virtual DOM</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🎨 UI Component Library</h4>
+                        <p><strong>Astro UXDS 7.17.1</strong></p>
+                        <p>Web components for aerospace applications</p>
+                        <p><code>Custom Elements, Shadow DOM</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🧭 Routing</h4>
+                        <p><strong>Vue Router 4.2.2</strong></p>
+                        <p>Official router for Vue.js</p>
+                        <p><code>HTML5 History Mode, Navigation Guards</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>💅 Styling</h4>
+                        <p><strong>Tailwind CSS 3.3.2</strong></p>
+                        <p>Utility-first CSS framework</p>
+                        <p><code>JIT Compiler, Custom Plugins</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🔨 Build Tool</h4>
+                        <p><strong>Vite 5.0.0</strong></p>
+                        <p>Next generation frontend tooling</p>
+                        <p><code>ES Modules, HMR, Fast Builds</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>📘 Language</h4>
+                        <p><strong>TypeScript 5.6.2</strong></p>
+                        <p>Typed superset of JavaScript</p>
+                        <p><code>Type Safety, IntelliSense</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>📦 Package Manager</h4>
+                        <p><strong>pnpm</strong></p>
+                        <p>Fast, disk space efficient package manager</p>
+                        <p><code>Content-addressable Storage</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🔐 Authentication (Planned)</h4>
+                        <p><strong>Keycloak 26.0.5</strong></p>
+                        <p>Open source identity and access management</p>
+                        <p><code>OAuth 2.0, OIDC, SAML</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🐳 Containerization</h4>
+                        <p><strong>Docker</strong></p>
+                        <p>Container platform for deployment</p>
+                        <p><code>Multi-stage Builds, Layers</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🌐 Web Server</h4>
+                        <p><strong>http-server</strong></p>
+                        <p>Simple, zero-configuration HTTP server</p>
+                        <p><code>Static File Serving</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>✅ Code Quality</h4>
+                        <p><strong>ESLint 8.42.0</strong></p>
+                        <p>JavaScript linting utility</p>
+                        <p><code>@antfu/eslint-config</code></p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>🎯 PostCSS</h4>
+                        <p><strong>PostCSS 8.4.24</strong></p>
+                        <p>Tool for transforming CSS</p>
+                        <p><code>Autoprefixer, Tailwind Integration</code></p>
+                    </div>
+                </div>
+                
+                <h3>Build Pipeline</h3>
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph LR
+    Source[Source Files<br/>.vue, .ts, .css]
+    TypeScript[TypeScript Compiler<br/>vue-tsc]
+    Vite[Vite Build<br/>Bundling & Optimization]
+    PostCSS[PostCSS<br/>Tailwind Processing]
+    Output[dist/ Output<br/>Optimized Assets]
+    
+    Source --> TypeScript
+    TypeScript --> Vite
+    Source --> PostCSS
+    PostCSS --> Vite
+    Vite --> Output
+    
+    Output --> JS[Minified JS]
+    Output --> CSS[Optimized CSS]
+    Output --> HTML[index.html]
+    Output --> Assets[Static Assets]
+    
+    style Vite fill:#4f46e5,stroke:#312e81,color:#fff
+    style Output fill:#059669,stroke:#065f46,color:#fff
+                    </div>
+                </div>
+                
+                <h3>Development Dependencies</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Package</th>
+                            <th>Version</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@vitejs/plugin-vue</td>
+                            <td>4.2.3</td>
+                            <td>Vue 3 plugin for Vite</td>
+                        </tr>
+                        <tr>
+                            <td>@vue/compiler-sfc</td>
+                            <td>3.3.4</td>
+                            <td>Vue Single File Component compiler</td>
+                        </tr>
+                        <tr>
+                            <td>autoprefixer</td>
+                            <td>10.4.14</td>
+                            <td>CSS vendor prefix automation</td>
+                        </tr>
+                        <tr>
+                            <td>vue-tsc</td>
+                            <td>2.0.0</td>
+                            <td>TypeScript type checking for Vue</td>
+                        </tr>
+                        <tr>
+                            <td>@tailwindcss/forms</td>
+                            <td>0.5.3</td>
+                            <td>Tailwind plugin for form styling</td>
+                        </tr>
+                        <tr>
+                            <td>@tailwindcss/typography</td>
+                            <td>0.5.9</td>
+                            <td>Tailwind plugin for prose styling</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- INTEGRATION POINTS -->
+            <section>
+                <h2>🔗 Integration Points</h2>
+                
+                <div class="diagram-container">
+                    <h3>External System Integration</h3>
+                    <div class="mermaid">
+graph TB
+    Frontend[Windstorm-Trade<br/>Frontend Application]
+    
+    subgraph "Primary Integration"
+        API[Windstorm API<br/>windstorm-api.digitalforge.app]
+    end
+    
+    subgraph "Secondary Integrations"
+        Artifacts[Artifact Repository<br/>configs.digitalforge.app]
+        Harbor[Container Registry<br/>harbor.digitalforge.app]
+        Models[Model Repository<br/>models.digitalforge.app]
+    end
+    
+    subgraph "Development Tools"
+        Jupyter[JupyterHub<br/>jupyter.westfall.io]
+        ModelGit[Model Git<br/>models.westfall.io]
+        ArtifactGit[Artifact Git<br/>artifacts.westfall.io]
+        Minio[MinIO Storage<br/>storage.westfall.io]
+    end
+    
+    Frontend -->|REST API<br/>JSON| API
+    Frontend -.->|Direct Link| Artifacts
+    Frontend -.->|Direct Link| Harbor
+    Frontend -.->|Direct Link| Models
+    
+    Frontend -.->|External Link| Jupyter
+    Frontend -.->|External Link| ModelGit
+    Frontend -.->|External Link| ArtifactGit
+    Frontend -.->|External Link| Minio
+    
+    style Frontend fill:#4f46e5,stroke:#312e81,color:#fff
+    style API fill:#dc2626,stroke:#991b1b,color:#fff
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h4>API Configuration (constants.tsx)</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li><strong>API Address:</strong> https://windstorm-api.digitalforge.app</li>
+                        <li><strong>Artifact Address:</strong> https://configs.digitalforge.app</li>
+                        <li><strong>Harbor Address:</strong> https://harbor.digitalforge.app</li>
+                        <li><strong>Model Address:</strong> https://models.digitalforge.app</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2024 Westfall Inc. - Windstorm-Trade Architecture Documentation</p>
+            <p>Generated: <span id="timestamp"></span></p>
+            <p>License: GNU Affero General Public License v3.0</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#4f46e5',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#312e81',
+                lineColor: '#6b7280',
+                secondaryColor: '#059669',
+                tertiaryColor: '#0891b2'
+            }
+        });
+        
+        // Add timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,3 +1,9 @@
+/**
+ * Application router definitions.
+ *
+ * Each route maps a URL path to a view component used by the dashboard.
+ * Exported `router` is created with HTML5 history mode and used by the app.
+ */
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 

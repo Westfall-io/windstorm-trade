@@ -1,4 +1,8 @@
 <script setup>
+// Dashboard view: collects a few small summary counts from the
+// API and displays them inside Astro UXDS cards. The three helper
+// functions below fetch counts for models, requirements and threads
+// and populate reactive refs used by the template.
 import { ref } from 'vue'
 import API_Wait from '../components/links/API_Wait.vue'
 
