@@ -1,36 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import API_Wait from '../components/links/API_Wait.vue'
 import { apiJson } from '../lib/api'
 
-const models = ref<number | null>(null)
-const requirements = ref<number | null>(null)
-const threads = ref<number | null>(null)
-
-async function getModels() {
-  const data = await apiJson<{ models: number }>('/views/count_models/')
-  models.value = data.models
-}
-
-async function getReqts() {
-  const data = await apiJson<{ requirements: number }>('/views/count_requirements/')
-  requirements.value = data.requirements
-}
-
-async function getThreads() {
-  const data = await apiJson<{ threads: number }>('/views/count_threads/')
-  threads.value = data.threads
-}
-
-onMounted(() => {
-  getModels()
-  getReqts()
-  getThreads()
-})
-
-import API_Wait from '../components/links/API_Wait.vue'
-import * as defaults from '../constants.tsx'
-
-const stats = ref({
+const stats = ref<{
+  models: number | string | null
+  requirements: number | string | null
+  threads: number | string | null
+}>({
   models: null,
   requirements: null,
   threads: null,
@@ -77,23 +54,23 @@ const advancedApps = [
   },
 ]
 
-async function fetchCount(endpoint, key, field) {
-  try {
-    const response = await fetch(`${defaults.api_addr}${endpoint}`)
-    const data = await response.json()
-    stats.value[key] = data[field]
-  } catch (error) {
-    console.error(`Failed to load ${key}:`, error)
-    stats.value[key] = '—'
-  }
-}
-
 async function loadStats() {
-  await Promise.all([
-    fetchCount('/views/count_models/', 'models', 'models'),
-    fetchCount('/views/count_requirements/', 'requirements', 'requirements'),
-    fetchCount('/views/count_threads/', 'threads', 'threads'),
-  ])
+  try {
+    const [modelsData, requirementsData, threadsData] = await Promise.all([
+      apiJson<{ models: number }>('/views/count_models/'),
+      apiJson<{ requirements: number }>('/views/count_requirements/'),
+      apiJson<{ threads: number }>('/views/count_threads/'),
+    ])
+
+    stats.value.models = modelsData.models
+    stats.value.requirements = requirementsData.requirements
+    stats.value.threads = threadsData.threads
+  } catch (error) {
+    console.error('Failed to load dashboard stats:', error)
+    stats.value.models = '—'
+    stats.value.requirements = '—'
+    stats.value.threads = '—'
+  }
 }
 
 onMounted(() => {
@@ -103,7 +80,6 @@ onMounted(() => {
 
 <template>
   <div class="px-6 py-8 space-y-8">
-
     <rux-container class="w-full">
       <div slot="header">Welcome to DigitalForge</div>
       <div class="space-y-4">
@@ -124,7 +100,6 @@ onMounted(() => {
       <div slot="header">Platform Applications</div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
         <rux-card
           v-for="app in primaryApps"
           :key="app.title"
@@ -137,10 +112,8 @@ onMounted(() => {
             <a :href="app.href" style="text-decoration: none;">
               <rux-button>{{ app.cta }}</rux-button>
             </a>
-
           </div>
         </rux-card>
-
       </div>
     </rux-container>
 
@@ -148,7 +121,6 @@ onMounted(() => {
       <div slot="header">What You Can Do in DigitalForge</div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-
         <rux-card class="p-4">
           <div class="font-semibold mb-2">Develop SysML v2 Models</div>
           <p>
@@ -180,7 +152,6 @@ onMounted(() => {
             engineering workflows.
           </p>
         </rux-card>
-
       </div>
     </rux-container>
 
@@ -188,7 +159,6 @@ onMounted(() => {
       <div slot="header">Platform Snapshot</div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
         <rux-card class="p-6">
           <div class="text-center space-y-2">
             <div class="text-sm uppercase tracking-wide opacity-75">
@@ -236,7 +206,6 @@ onMounted(() => {
             </div>
           </div>
         </rux-card>
-
       </div>
     </rux-container>
 
@@ -244,7 +213,6 @@ onMounted(() => {
       <div slot="header">Advanced Platform Tools</div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
         <rux-card
           v-for="app in advancedApps"
           :key="app.title"
@@ -252,18 +220,14 @@ onMounted(() => {
         >
           <div class="space-y-3">
             <div class="text-lg font-semibold">{{ app.title }}</div>
-
             <p>{{ app.description }}</p>
 
             <a :href="app.href" style="text-decoration: none;">
               <rux-button secondary>{{ app.cta }}</rux-button>
             </a>
-
           </div>
         </rux-card>
-
       </div>
     </rux-container>
-
   </div>
 </template>
