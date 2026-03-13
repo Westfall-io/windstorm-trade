@@ -13,24 +13,22 @@ const inactiveClass = ref(
 
 <template>
   <div class="flex">
-    <!-- Backdrop -->
     <div
       :class="isOpen ? 'block' : 'hidden'"
       class="fixed inset-0 z-20 transition-opacity bg-black opacity-50 lg:hidden"
       @click="isOpen = false"
     />
-    <!-- End Backdrop -->
 
     <div
       :class="isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
-      class="fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform bg-gray-900 lg:translate-x-0 lg:static lg:inset-0"
+      class="fixed top-[72px] bottom-0 left-0 z-30 w-64 transition duration-300 transform bg-gray-900 lg:translate-x-0 lg:static lg:top-auto lg:bottom-auto lg:inset-0"
     >
       <nav class="mt-4">
         <router-link
           style="text-decoration: none; color: inherit;"
           class="flex items-center px-12 py-2 mt-4 duration-200 border-l-4"
           :class="[$route.name === 'Dashboard' ? activeClass : inactiveClass]"
-          to="/"
+          to="/dashboard"
         >
           <svg
             class="w-10 h-10"
@@ -39,9 +37,8 @@ const inactiveClass = ref(
             xmlns="http://www.w3.org/2000/svg"
           >
             <title>Dashboard</title>
-            <path fill="currentColor" d="M10 13H4c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1Zm0 8H4c-.55 0-1-.45-1-1v-4c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v4c0 .55-.45 1-1 1Zm4 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1ZM13 8V4c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v4c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1Z"></path><metadata>cards, dashboard, format, layout, rectangle, shapes, square, web, website</metadata>
+            <path fill="currentColor" d="M10 13H4c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1Zm0 8H4c-.55 0-1-.45-1-1v-4c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v4c0 .55-.45 1-1 1Zm4 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1ZM13 8V4c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v4c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1Z"></path>
           </svg>
-
           <span class="mx-4">Dashboard</span>
         </router-link>
 

@@ -19,30 +19,23 @@ export const keycloak = new Keycloak({
 let initialized = false
 
 export async function initKeycloak() {
-    if (initialized) return keycloak.authenticated ?? false
+  if (initialized) return keycloak.authenticated ?? false
 
-    const initOptions: KeycloakInitOptions = {
+  const initOptions: KeycloakInitOptions = {
     onLoad: keycloak_onload as 'login-required' | 'check-sso',
     pkceMethod: 'S256',
-    checkLoginIframe: true,
     responseMode: 'query',
-    silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
-    }
+    checkLoginIframe: false,
+  }
 
-    const authenticated = await keycloak.init(initOptions)
-    initialized = true
-    return authenticated
-}
-
-export async function ensureFreshToken(minValidity = 30) {
-  if (!keycloak.authenticated) return null
-  await keycloak.updateToken(minValidity)
-  return keycloak.token ?? null
+  const authenticated = await keycloak.init(initOptions)
+  initialized = true
+  return authenticated
 }
 
 export function login() {
   return keycloak.login({
-    redirectUri: window.location.origin,
+    redirectUri: `${window.location.origin}/dashboard`,
   })
 }
 
@@ -58,8 +51,4 @@ export function getUsername() {
     keycloak.tokenParsed?.email ||
     'User'
   )
-}
-
-export function hasRealmRole(role: string) {
-  return keycloak.hasRealmRole(role)
 }

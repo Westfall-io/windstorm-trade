@@ -27,8 +27,6 @@ WORKDIR /app
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY trade/package*.json ./
 
-RUN pnpm install i @astrouxds/tailwind
-
 # install project dependencies
 RUN pnpm install
 
