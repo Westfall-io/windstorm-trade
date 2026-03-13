@@ -2,9 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import './assets/main.css'
-
 import DashboardLayout from './components/DashboardLayout.vue'
 import EmptyLayout from './components/EmptyLayout.vue'
+import '@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css'
+import { initKeycloak, keycloak } from './auth/keycloak'
 
 // Import Astro's base styles
 import '@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css'
@@ -67,3 +68,33 @@ app.component('EmptyLayout', EmptyLayout)
 
 app.use(router)
 app.mount('#app')
+
+async function bootstrap() {
+  try {
+    await initKeycloak()
+
+    const app = createApp(App)
+
+    app.component('DefaultLayout', DashboardLayout)
+    app.component('EmptyLayout', EmptyLayout)
+
+    app.provide('keycloak', keycloak)
+
+    app.use(router)
+    app.mount('#app')
+  } catch (error) {
+    console.error('Failed to initialize authentication', error)
+
+    const el = document.getElementById('app')
+    if (el) {
+      el.innerHTML = `
+        <div style="padding: 2rem; font-family: sans-serif;">
+          <h2>Authentication initialization failed</h2>
+          <p>Please refresh the page or contact an administrator.</p>
+        </div>
+      `
+    }
+  }
+}
+
+bootstrap()

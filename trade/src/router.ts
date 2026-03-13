@@ -17,76 +17,23 @@ import Requirements from './views/Reqts.vue'
 import Requirement from './views/Reqt.vue'
 
 const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    name: 'Dashboard',
-    component: Dashboard,
-  },
-  {
-    path: '/reqts',
-    name: 'Requirements',
-    component: Requirements,
-  },
-  {
-    path: '/reqt/:id',
-    name: 'Requirement',
-    component: Requirement,
-  },
-  {
-    path: '/verifications',
-    name: 'Verifications',
-    component: Verifications,
-  },
-  {
-    path: '/verification/:id',
-    name: 'Verification',
-    component: Verification,
-  },
-  {
-    path: '/threads',
-    name: 'Threads',
-    component: Threads,
-  },
-  {
-    path: '/thread/:id',
-    name: 'Thread',
-    component: Thread,
-  },
-  {
-    path: '/commits',
-    name: 'Commits',
-    component: Model_Commits,
-  },
-  {
-    path: '/commits/:id',
-    name: 'Branch',
-    component: Model_Branch,
-  },
-  {
-    path: '/branches',
-    name: 'Branches',
-    component: Model_Branches,
-  },
-  {
-    path: '/thread-executions',
-    name: 'Thread Executions',
-    component: Thread_Executions,
-  },
-  {
-    path: '/artifacts',
-    name: 'Artifacts',
-    component: Artifacts,
-  },
-  {
-    path: '/containers',
-    name: 'Containers',
-    component: Containers,
-  },
+  { path: '/', name: 'Dashboard', component: Dashboard },
+  { path: '/reqts', name: 'Requirements', component: Requirements },
+  { path: '/reqt/:id', name: 'Requirement', component: Requirement },
+  { path: '/verifications', name: 'Verifications', component: Verifications },
+  { path: '/verification/:id', name: 'Verification', component: Verification },
+  { path: '/threads', name: 'Threads', component: Threads },
+  { path: '/thread/:id', name: 'Thread', component: Thread },
+  { path: '/commits', name: 'Commits', component: Model_Commits },
+  { path: '/commits/:id', name: 'Branch', component: Model_Branch },
+  { path: '/branches', name: 'Branches', component: Model_Branches },
+  { path: '/thread-executions', name: 'Thread Executions', component: Thread_Executions },
+  { path: '/artifacts', name: 'Artifacts', component: Artifacts },
+  { path: '/containers', name: 'Containers', component: Containers },
+  { path: '/auth/callback', name: 'Auth Callback', component: Blank },
 ]
 
-const router = createRouter({
+export default createRouter({
   history: createWebHistory(),
   routes,
 })
-
-export default router
