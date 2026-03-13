@@ -1,98 +1,242 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import API_Wait from '../components/links/API_Wait.vue'
-
 import * as defaults from '../constants.tsx'
 
-const models = ref(null);
-const requirements = ref(null);
-const threads = ref(null);
+const stats = ref({
+  models: null,
+  requirements: null,
+  threads: null,
+})
 
-async function getModels() {
-  fetch(defaults.api_addr+'/views/count_models/')
-    .then(response => response.json())
-    .then(data => {
-      models.value=data.models;
-    });
+const primaryApps = [
+  {
+    title: 'Coder',
+    description:
+      'Primary development environment for SysML v2 models and DigitalForge workflows. Launch a cloud workspace with a full VS Code interface to build models, automation, and validation pipelines.',
+    href: 'https://coder.digitalforge.app/',
+    cta: 'Open Coder',
+  },
+  {
+    title: 'JupyterHub',
+    description:
+      'Notebook environments for SysML v2 analysis, scripting, and verification workflows. Use Python and other tools to interact with models, run engineering analysis, and support validation activities.',
+    href: 'https://jupyter.digitalforge.app/',
+    cta: 'Open JupyterHub',
+  },
+  {
+    title: 'Models',
+    description:
+      'Git-based repository for storing and collaborating on SysML v2 models used across DigitalForge.',
+    href: 'https://models.digitalforge.app/',
+    cta: 'Open Models',
+  },
+  {
+    title: 'Configs',
+    description:
+      'Repository for workflow configurations, analysis inputs, and supporting artifacts used by validation pipelines.',
+    href: 'https://configs.digitalforge.app/',
+    cta: 'Open Configs',
+  },
+]
+
+const advancedApps = [
+  {
+    title: 'Harbor',
+    description:
+      'Container registry used by DigitalForge workflows to store execution images and analysis environments.',
+    href: 'https://harbor.digitalforge.app/',
+    cta: 'Open Harbor',
+  },
+]
+
+async function fetchCount(endpoint, key, field) {
+  try {
+    const response = await fetch(`${defaults.api_addr}${endpoint}`)
+    const data = await response.json()
+    stats.value[key] = data[field]
+  } catch (error) {
+    console.error(`Failed to load ${key}:`, error)
+    stats.value[key] = '—'
+  }
 }
 
-async function getReqts() {
-  fetch(defaults.api_addr+'/views/count_requirements/')
-    .then(response => response.json())
-    .then(data => {
-      requirements.value=data.requirements;
-    });
+async function loadStats() {
+  await Promise.all([
+    fetchCount('/views/count_models/', 'models', 'models'),
+    fetchCount('/views/count_requirements/', 'requirements', 'requirements'),
+    fetchCount('/views/count_threads/', 'threads', 'threads'),
+  ])
 }
 
-async function getThreads() {
-  fetch(defaults.api_addr+'/views/count_threads/')
-    .then(response => response.json())
-    .then(data => {
-      threads.value=data.threads;
-    });
-}
-
-getModels();
-getReqts();
-getThreads();
-
+onMounted(() => {
+  loadStats()
+})
 </script>
 
 <template>
-  <div class="flex flex-wrap -mx-6 pt-6">
-    <rux-container class="px-6 pb-4">
+  <div class="px-6 py-8 space-y-8">
+
+    <rux-container class="w-full">
       <div slot="header">Welcome to DigitalForge</div>
-      Digitalforge is an app of apps designed to produce continuous requirement
-      validation for software defined systems via the SysMLv2 standard. The
-      following links should help navigate to other applications required to
-      setup or build the model or continuous verification.
-      <br />
-      <a href="https://jupyter.westfall.io/" style="text-decoration: none;">JupyterHub -- Model Editing</a><br />
-      <a href="https://models.westfall.io/" style="text-decoration: none;">Model Git -- Model Repository</a><br />
-      <a href="https://artifacts.westfall.io/" style="text-decoration: none;">Artifact Git -- Artifact Repository</a><br />
-      <a href="https://core.harbor.domain/" style="text-decoration: none;">Harbor -- Container Registry</a><br />
-      <a href="https://storage.westfall.io/" style="text-decoration: none;">Minio -- Verification Output Artifact Storage</a>
-    </rux-container>
-    <!--<rux-container class="px-6 pb-4">
-      <iframe width="800" height="230" src="https://jupyter.digitalforge.app"></iframe>
-    </rux-container>-->
-    <br />
-    <rux-container class="w-full px-6">
-      <div class="flex flex-wrap">
-        <rux-card class="px-6 w-1/4">
-      		<div slot="header" class="text-center">Total Models</div>
-          <div v-if="models!=null">
-            <p class="text-center">
-              {{ models }}
-            </p>
-          </div>
-          <div v-else>
-            <API_Wait />
-          </div>
-        </rux-card>
-        <rux-card class="px-6 w-1/4">
-      		<div slot="header" class="text-center">Total Requirements</div>
-          <div v-if="requirements!=null">
-            <p class="text-center">
-              {{ requirements }}
-            </p>
-          </div>
-          <div v-else>
-            <API_Wait />
-          </div>
-        </rux-card>
-        <rux-card class="px-6 w-1/4">
-      		<div slot="header" class="text-center">Total Threads</div>
-          <div v-if="threads!=null">
-            <p class="text-center">
-              {{ threads }}
-            </p>
-          </div>
-          <div v-else>
-            <API_Wait />
-          </div>
-        </rux-card>
+      <div class="space-y-4">
+        <p class="text-lg">
+          DigitalForge is a model-based engineering platform for developing,
+          managing, and validating software-defined systems using SysML v2 models
+          and software-defined verification workflows.
+        </p>
+        <p>
+          Engineers use DigitalForge to develop SysML v2 models, build validation
+          workflows, collaborate through repositories, and analyze results from
+          engineering verification activities.
+        </p>
       </div>
     </rux-container>
+
+    <rux-container class="w-full">
+      <div slot="header">Platform Applications</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <rux-card
+          v-for="app in primaryApps"
+          :key="app.title"
+          class="p-5 h-full"
+        >
+          <div class="space-y-3">
+            <div class="text-lg font-semibold">{{ app.title }}</div>
+            <p>{{ app.description }}</p>
+
+            <a :href="app.href" style="text-decoration: none;">
+              <rux-button>{{ app.cta }}</rux-button>
+            </a>
+
+          </div>
+        </rux-card>
+
+      </div>
+    </rux-container>
+
+    <rux-container class="w-full">
+      <div slot="header">What You Can Do in DigitalForge</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+
+        <rux-card class="p-4">
+          <div class="font-semibold mb-2">Develop SysML v2 Models</div>
+          <p>
+            Create and refine system models that define architecture,
+            requirements, and verification relationships.
+          </p>
+        </rux-card>
+
+        <rux-card class="p-4">
+          <div class="font-semibold mb-2">Build Engineering Workflows</div>
+          <p>
+            Develop software-defined validation workflows that evaluate models
+            and system behavior.
+          </p>
+        </rux-card>
+
+        <rux-card class="p-4">
+          <div class="font-semibold mb-2">Collaborate Through Git</div>
+          <p>
+            Manage models, configurations, and workflow inputs using
+            version-controlled repositories.
+          </p>
+        </rux-card>
+
+        <rux-card class="p-4">
+          <div class="font-semibold mb-2">Analyze Verification Results</div>
+          <p>
+            Review requirement threads and validation outputs produced by
+            engineering workflows.
+          </p>
+        </rux-card>
+
+      </div>
+    </rux-container>
+
+    <rux-container class="w-full">
+      <div slot="header">Platform Snapshot</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <rux-card class="p-6">
+          <div class="text-center space-y-2">
+            <div class="text-sm uppercase tracking-wide opacity-75">
+              Total Models
+            </div>
+
+            <div v-if="stats.models !== null" class="text-4xl font-bold">
+              {{ stats.models }}
+            </div>
+
+            <div v-else>
+              <API_Wait />
+            </div>
+          </div>
+        </rux-card>
+
+        <rux-card class="p-6">
+          <div class="text-center space-y-2">
+            <div class="text-sm uppercase tracking-wide opacity-75">
+              Total Requirements
+            </div>
+
+            <div v-if="stats.requirements !== null" class="text-4xl font-bold">
+              {{ stats.requirements }}
+            </div>
+
+            <div v-else>
+              <API_Wait />
+            </div>
+          </div>
+        </rux-card>
+
+        <rux-card class="p-6">
+          <div class="text-center space-y-2">
+            <div class="text-sm uppercase tracking-wide opacity-75">
+              Total Threads
+            </div>
+
+            <div v-if="stats.threads !== null" class="text-4xl font-bold">
+              {{ stats.threads }}
+            </div>
+
+            <div v-else>
+              <API_Wait />
+            </div>
+          </div>
+        </rux-card>
+
+      </div>
+    </rux-container>
+
+    <rux-container class="w-full">
+      <div slot="header">Advanced Platform Tools</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <rux-card
+          v-for="app in advancedApps"
+          :key="app.title"
+          class="p-5 h-full"
+        >
+          <div class="space-y-3">
+            <div class="text-lg font-semibold">{{ app.title }}</div>
+
+            <p>{{ app.description }}</p>
+
+            <a :href="app.href" style="text-decoration: none;">
+              <rux-button secondary>{{ app.cta }}</rux-button>
+            </a>
+
+          </div>
+        </rux-card>
+
+      </div>
+    </rux-container>
+
   </div>
 </template>
