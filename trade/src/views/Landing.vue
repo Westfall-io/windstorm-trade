@@ -1,22 +1,28 @@
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
-import { keycloak, login, getUsername } from '../auth/keycloak'
+import { computed, watch } from 'vue'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
+import { keycloak, login, logout, getUsername } from '../auth/keycloak'
 
+const route = useRoute()
 const router = useRouter()
 
 const isAuthenticated = computed(() => !!keycloak.authenticated)
 const username = computed(() => getUsername())
+const loginRequired = computed(() => route.query.login === 'required')
 
 function handleLogin() {
   login()
 }
 
-watchEffect(() => {
-  if (isAuthenticated.value) {
-    router.replace('/dashboard')
-  }
-})
+watch(
+  isAuthenticated,
+  (authenticated) => {
+    if (authenticated) {
+      router.replace('/dashboard')
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
