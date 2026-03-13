@@ -1,5 +1,32 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { apiJson } from '../lib/api'
+
+const models = ref<number | null>(null)
+const requirements = ref<number | null>(null)
+const threads = ref<number | null>(null)
+
+async function getModels() {
+  const data = await apiJson<{ models: number }>('/views/count_models/')
+  models.value = data.models
+}
+
+async function getReqts() {
+  const data = await apiJson<{ requirements: number }>('/views/count_requirements/')
+  requirements.value = data.requirements
+}
+
+async function getThreads() {
+  const data = await apiJson<{ threads: number }>('/views/count_threads/')
+  threads.value = data.threads
+}
+
+onMounted(() => {
+  getModels()
+  getReqts()
+  getThreads()
+})
+
 import API_Wait from '../components/links/API_Wait.vue'
 import * as defaults from '../constants.tsx'
 

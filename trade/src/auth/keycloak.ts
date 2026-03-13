@@ -35,7 +35,7 @@ export async function initKeycloak() {
 
 export function login() {
   return keycloak.login({
-    redirectUri: `${window.location.origin}/dashboard`,
+    redirectUri: window.location.origin,
   })
 }
 
