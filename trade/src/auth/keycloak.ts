@@ -33,6 +33,13 @@ export async function initKeycloak() {
   return authenticated
 }
 
+export async function ensureFreshToken(minValidity = 30) {
+  if (!keycloak.authenticated) return null
+
+  await keycloak.updateToken(minValidity)
+  return keycloak.token ?? null
+}
+
 export function login() {
   return keycloak.login({
     redirectUri: window.location.origin,
@@ -52,3 +59,4 @@ export function getUsername() {
     'User'
   )
 }
+
